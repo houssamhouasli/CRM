@@ -1,0 +1,31 @@
+@extends('layouts.app')
+@section('sidebar') @include('partials.sidebar-admin') @endsection
+@section('page-title', 'Modifier Région')
+@section('page-subtitle', 'Modifier une région existante')
+
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="data-card animate-in">
+            <div class="card-header"><h5><i class="bi bi-pencil me-2"></i>Modifier : {{ $region->name }}</h5></div>
+            <div class="card-body">
+                <form action="{{ route('admin.regions.update', $region) }}" method="POST">
+                    @csrf @method('PUT')
+                    <div class="mb-3">
+                        <label class="form-label">Nom de la région</label>
+                        <input type="text" name="name" class="form-control" value="{{ old('name', $region->name) }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Code</label>
+                        <input type="text" name="code" class="form-control" value="{{ old('code', $region->code) }}" required>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary-custom"><i class="bi bi-check-lg me-1"></i>Mettre à jour</button>
+                        <a href="{{ route('admin.regions.index') }}" class="btn btn-outline-custom"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
