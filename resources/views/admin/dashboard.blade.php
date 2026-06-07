@@ -114,9 +114,35 @@
 <div class="row g-3 mb-4">
     <div class="col-lg-8">
         <div class="data-card animate-in h-100">
-            <div class="card-header">
-                <h5><i class="bi bi-pie-chart-fill me-2" style="color: var(--primary);"></i>Répartition des Ventes par Région</h5>
-                <small class="text-muted">Ventes historiques totales</small>
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                <div>
+                    <h5 class="mb-0"><i class="bi bi-pie-chart-fill me-2" style="color: var(--primary);"></i>Répartition des Ventes par Région</h5>
+                    <small class="text-muted">
+                        @if(request('start_date') || request('end_date'))
+                            Ventes filtrées du {{ request('start_date', '...') }} au {{ request('end_date', '...') }}
+                        @else
+                            Ventes historiques totales
+                        @endif
+                    </small>
+                </div>
+                <form action="{{ route('admin.dashboard') }}" method="GET" class="d-flex gap-2 align-items-center">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-light text-muted">Du</span>
+                        <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
+                    </div>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-light text-muted">Au</span>
+                        <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary-custom btn-sm">
+                        <i class="bi bi-filter"></i>
+                    </button>
+                    @if(request('start_date') || request('end_date'))
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-custom btn-sm">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                        </a>
+                    @endif
+                </form>
             </div>
             <div class="card-body">
                 <div class="row align-items-center">

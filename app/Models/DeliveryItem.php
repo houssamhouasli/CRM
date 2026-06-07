@@ -16,7 +16,6 @@ class DeliveryItem extends Model
         'qty_delivered',
         'returned_quantity',
         'is_substitution',
-        'original_product_id',
         'unit_price_ht',
         'promo_type',
         'promo_value',
@@ -25,11 +24,6 @@ class DeliveryItem extends Model
         'total_tva',
         'total_ttc',
     ];
-
-    public function originalProduct()
-    {
-        return $this->belongsTo(Product::class, 'original_product_id');
-    }
 
     protected function casts(): array
     {

@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
         $pendingDeliveries = Delivery::with(['order.client', 'depot'])
             ->where('livreur_id', $user->id)
-            ->where('status', 'pending')
+            ->whereIn('status', ['pending', 'proposition'])
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();

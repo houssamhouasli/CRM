@@ -28,10 +28,8 @@ class LoginController extends Controller
             return match ($user->role) {
                 'admin' => redirect('/admin'),
                 'commercial' => redirect('/commercial'),
-                'client' => redirect('/client'),
                 'depositaire' => redirect('/depositaire'),
                 'livreur'=> redirect('/livreur'),
-                default => redirect('/client'),
             };
         }
 

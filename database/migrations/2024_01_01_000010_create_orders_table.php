@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('total_tva', 15, 2)->default(0.00);
             $table->decimal('total_ttc', 15, 2)->default(0.00);
             $table->text('notes')->nullable();
-            $table->timestamp('order_date')->useCurrent();
+            $table->timestamp('order_date')->useCurrent(); 
             $table->timestamps();
         });
     }

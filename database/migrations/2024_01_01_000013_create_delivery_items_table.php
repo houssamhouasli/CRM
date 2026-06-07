@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('qty_delivered')->default(0);
             $table->integer('returned_quantity')->default(0);
             $table->boolean('is_substitution')->default(false);
-            $table->foreignId('original_product_id')->nullable()->constrained('products')->nullOnDelete();
             $table->decimal('unit_price_ht', 15, 2)->nullable();
             $table->enum('promo_type', ['percentage', 'fixed'])->nullable();
             $table->decimal('promo_value', 15, 2)->default(0);

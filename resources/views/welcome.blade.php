@@ -1085,7 +1085,7 @@
         <div class="orbital"></div>
         <div class="orbital"></div>
         <div class="orbital"></div>
-
+ 
         <!-- Particles -->
         <div class="particles" id="particles"></div>
 
@@ -1093,7 +1093,7 @@
             <div class="hero-text">
                 <div class="hero-badge reveal">
                     <span class="dot"></span>
-                    Plateforme CRM v1.1
+                    Plateforme CRM 
                 </div>
 
                 <h1 class="reveal reveal-delay-1">

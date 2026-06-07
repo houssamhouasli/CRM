@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
         return view('emails.status_updated', [
             'order' => $order,
             'newStatusLabel' => 'Livrée',
-            'color' => '#27ae60',
+            'color' => '#27ae60', 
         ]);
     })->name('order_status_email')->whereNumber('id');
 
@@ -201,4 +201,4 @@ Route::prefix('livreur')->name('livreur.')->middleware(['auth', 'role:livreur'])
     Route::put('/profile', [App\Http\Controllers\Livreur\ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [App\Http\Controllers\Livreur\ProfileController::class, 'updatePassword'])->name('profile.password');
 });
-
+ 

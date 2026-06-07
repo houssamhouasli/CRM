@@ -9,10 +9,15 @@ use App\Models\Product;
 use App\Models\Region;
 use \App\Models\Delivery;
 
+use Illuminate\Http\Request;
+
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
         $totalClients = Client::count();
         $totalOrders = Order::count();
         $totalProducts = Product::count();
@@ -42,19 +47,26 @@ class DashboardController extends Controller
 
         $currentMonth = now()->month;
 
-        $regions = Region::withCount('clients')->get()->map(function ($region) use ($currentMonth) {
-            $region->monthly_revenue =Delivery::whereHas('order.client', function ($q) use ($region) {
+        $regions = Region::withCount('clients')->get()->map(function ($region) use ($currentMonth, $startDate, $endDate) {
+            $region->monthly_revenue = Delivery::whereHas('order.client', function ($q) use ($region) {
                 $q->where('region_id', $region->id);
             })
                 ->where('status', 'livrer')
                 ->whereMonth('delivery_date', $currentMonth)
                 ->sum('total_ttc');
 
-            $region->total_sales = Delivery::whereHas('order.client', function ($q) use ($region) {
+            $query = Delivery::whereHas('order.client', function ($q) use ($region) {
                 $q->where('region_id', $region->id);
-            })
-                ->where('status', 'livrer')
-                ->sum('total_ttc');
+            })->where('status', 'livrer');
+
+            if ($startDate) {
+                $query->whereDate('delivery_date', '>=', $startDate);
+            }
+            if ($endDate) {
+                $query->whereDate('delivery_date', '<=', $endDate);
+            }
+
+            $region->total_sales = $query->sum('total_ttc');
 
             return $region;
         });
