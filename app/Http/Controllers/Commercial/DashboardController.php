@@ -14,10 +14,17 @@ class DashboardController extends Controller
         $regionId = auth()->user()->region_id;
 
         $totalClients = Client::where('region_id', $regionId)->count();
-        $totalOrders = Order::whereHas('client', fn($q) => $q->where('region_id', $regionId))->count();
-        $pendingOrders = Order::whereHas('client', fn($q) => $q->where('region_id', $regionId))
-            ->where('status', 'pending')->count();
-        $totalRevenue =Delivery::whereHas('order.client', fn($q) => $q->where('region_id', $regionId))
+        
+        $orderCounts = Order::whereHas('client', fn($q) => $q->where('region_id', $regionId))
+            ->selectRaw("
+                COUNT(*) as total,
+                COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending
+            ")->first();
+
+        $totalOrders = (int) ($orderCounts->total ?? 0);
+        $pendingOrders = (int) ($orderCounts->pending ?? 0);
+
+        $totalRevenue = Delivery::whereHas('order.client', fn($q) => $q->where('region_id', $regionId))
             ->where('status', 'livrer')
             ->sum('total_ttc');
 

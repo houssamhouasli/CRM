@@ -18,7 +18,7 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-        ]); 
+        ]);  
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
@@ -29,7 +29,7 @@ class LoginController extends Controller
                 'admin' => redirect('/admin'),
                 'commercial' => redirect('/commercial'),
                 'depositaire' => redirect('/depositaire'),
-                'livreur'=> redirect('/livreur'),
+                'livreur'=> redirect('/livreur')
             };
         }
 

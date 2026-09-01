@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Desktop</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f4f6;
+            overflow: hidden;
+        }
+
+        #toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+            flex-shrink: 0;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            background: #334155;
+            color: #f8fafc;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.15s, opacity 0.15s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #475569;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        #webview {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="toolbar">
+        <button id="btn-back" class="nav-btn" title="Page précédente" disabled>
+            &#8592; Retour
+        </button>
+        <button id="btn-forward" class="nav-btn" title="Page suivante" disabled>
+            Avancer &#8594;
+        </button>
+        <button id="btn-refresh" class="nav-btn" title="Actualiser la page">
+            &#8635; Actualiser
+        </button>
+        <button id="btn-home" class="nav-btn" title="Retour à l'accueil">
+            &#8962; Accueil
+        </button>
+    </div>
+
+    <webview
+        id="webview"
+        src="http://127.0.0.1:8000"
+        partition="persist:crm"
+        allowpopups
+    ></webview>
+
+    <script>
+        const APP_URL = 'http://127.0.0.1:8000';
+        const webview = document.getElementById('webview');
+        const btnBack = document.getElementById('btn-back');
+        const btnForward = document.getElementById('btn-forward');
+        const btnRefresh = document.getElementById('btn-refresh');
+        const btnHome = document.getElementById('btn-home');
+
+        function updateNavButtons() {
+            btnBack.disabled = !webview.canGoBack();
+            btnForward.disabled = !webview.canGoForward();
+        }
+
+        btnBack.addEventListener('click', () => {
+            if (webview.canGoBack()) {
+                webview.goBack();
+            }
+        });
+
+        btnForward.addEventListener('click', () => {
+            if (webview.canGoForward()) {
+                webview.goForward();
+            }
+        });
+
+        btnRefresh.addEventListener('click', () => {
+            webview.reload();
+        });
+
+        btnHome.addEventListener('click', () => {
+            webview.loadURL(APP_URL);
+        });
+
+        webview.addEventListener('did-navigate', updateNavButtons);
+        webview.addEventListener('did-navigate-in-page', updateNavButtons);
+        webview.addEventListener('dom-ready', updateNavButtons);
+    </script>
+</body>
+</html>

@@ -1,26 +1,49 @@
-*.log
-.DS_Store
+# Laravel & PHP
+/vendor
 .env
 .env.backup
 .env.production
 .phpactor.json
 .phpunit.result.cache
-/.fleet
-/.idea
-/.nova
 /.phpunit.cache
-/.vscode
-/.zed
-/auth.json
+/storage/*.key
+/storage/pail
+/public/storage
+*.log
+Homestead.json
+Homestead.yaml
+auth.json
+
+# Node & Frontend
 /node_modules
 /public/build
 /public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
-Homestead.json
-Homestead.yaml
-Thumbs.db
-main.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Electron & Desktop Build Artifacts
+/dist
+/dist-electron
+/out
+/build
+*.exe
+*.dmg
+*.deb
+*.AppImage
+*.blockmap
+*.zip
+
+# Local / Sensitive / Backup files
 /php
+MOI.md
+main_V1.js
+
+# IDEs & System Files
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+.DS_Store
+Thumbs.db
